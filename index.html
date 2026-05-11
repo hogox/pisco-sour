@@ -208,39 +208,46 @@
     letter-spacing: .3px;
   }
 
-  /* ── Campo de texto ──────────────────────────────────────── */
-  .text-field { position: relative; margin-bottom: 8px; }
-  .text-field input {
-    width: 100%; height: 52px;
-    padding: 20px 16px 6px;
-    background: var(--input-bg);
+  /* ── Stepper ─────────────────────────────────────────────── */
+  .stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-s);
+    border-radius: 4px;
+    background: var(--raised);
+    overflow: hidden;
+  }
+  .stepper-btn {
+    width: 56px; height: 60px;
+    display: grid; place-items: center;
+    background: none;
     border: none;
-    border-bottom: 1px solid var(--border-s);
-    border-radius: 4px 4px 0 0;
-    font: 400 16px/24px 'DM Sans', sans-serif;
+    color: var(--subtle);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    flex-shrink: 0;
+  }
+  .stepper-btn:first-child { border-right: 1px solid var(--border-s); }
+  .stepper-btn:last-child  { border-left:  1px solid var(--border-s); }
+  .stepper-btn:hover:not(:disabled) { background: var(--gold-hov); color: var(--gold); }
+  .stepper-btn:disabled { opacity: 0.3; cursor: default; }
+  .stepper-btn .material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-size: 22px; }
+  .stepper-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 0;
+  }
+  .stepper-num {
+    font: 600 28px/1 'DM Sans', sans-serif;
     color: var(--text);
-    outline: none;
-    transition: border-color .2s;
   }
-  .text-field input:focus { border-bottom-color: var(--gold); }
-  .text-field label {
-    position: absolute;
-    left: 16px; top: 8px;
-    font-size: 11px; line-height: 16px;
+  .stepper-sub {
+    font: 400 11px/1 'DM Sans', sans-serif;
     color: var(--subtle);
-    pointer-events: none;
     letter-spacing: .3px;
-  }
-  .text-field input:focus + label { color: var(--gold); }
-  .text-field.error input        { border-bottom-color: var(--error); }
-  .text-field.error label,
-  .text-field.error .supporting  { color: var(--error); }
-
-  .supporting {
-    font-size: 12px; line-height: 16px;
-    color: var(--subtle);
-    padding: 4px 16px 0;
-    min-height: 20px;
   }
 
   input[type="number"]::-webkit-outer-spin-button,
@@ -317,18 +324,21 @@
 
   /* ── Mobile ──────────────────────────────────────────────── */
   @media (max-width: 480px) {
-    .hero-title      { font-size: 44px; }
-    .headline        { font-size: 22px; }
-    .body-medium     { font-size: 15px; line-height: 22px; }
+    .hero-title      { font-size: 52px; }
+    .headline        { font-size: 24px; }
+    .body-medium     { font-size: 16px; line-height: 26px; }
     .section-label   { font-size: 13px; }
-    .supporting      { font-size: 14px; line-height: 20px; }
-    .text-field input { font-size: 18px; }
-    .segmented label { font-size: 15px; height: 46px; }
-    .list li         { min-height: 60px; padding: 12px 0; }
-    .text .name      { font-size: 17px; line-height: 24px; }
-    .text .qty       { font-size: 15px; line-height: 22px; }
-    .leading         { width: 38px; height: 38px; }
-    .leading .material-symbols-rounded { font-size: 20px; }
+    .segmented label { font-size: 16px; height: 50px; }
+    .seg-mini label  { height: 38px; padding: 0 14px; font-size: 14px; }
+    .seg-mini .material-symbols-rounded { font-size: 18px; }
+    .stepper-btn     { width: 64px; height: 68px; }
+    .stepper-num     { font-size: 36px; }
+    .stepper-sub     { font-size: 13px; }
+    .list li         { min-height: 64px; padding: 14px 0; }
+    .text .name      { font-size: 18px; line-height: 26px; }
+    .text .qty       { font-size: 16px; line-height: 24px; }
+    .leading         { width: 42px; height: 42px; }
+    .leading .material-symbols-rounded { font-size: 22px; }
     .footer-note     { font-size: 13px; }
   }
 </style>
@@ -372,11 +382,19 @@
       </label>
     </div>
 
-    <div class="text-field" id="field">
-      <input type="number" id="people" min="1" max="20" value="1" inputmode="numeric" aria-describedby="help">
-      <label for="people" data-i18n="peopleLabel">Número de personas</label>
+    <span class="section-label" data-i18n="peopleLabel">Número de personas</span>
+    <div class="stepper" role="group" aria-labelledby="people-sub">
+      <button class="stepper-btn" id="people-minus" aria-label="Menos">
+        <span class="material-symbols-rounded">remove</span>
+      </button>
+      <div class="stepper-display">
+        <span class="stepper-num" id="people-count">1</span>
+        <span class="stepper-sub" id="people-sub">personas</span>
+      </div>
+      <button class="stepper-btn" id="people-plus" aria-label="Más">
+        <span class="material-symbols-rounded">add</span>
+      </button>
     </div>
-    <div class="supporting" id="help" data-i18n="peopleHelp">Entre 1 y 20 personas</div>
 
     <span class="section-label" data-i18n="abvLabel">Graduación del pisco</span>
     <div class="segmented" role="radiogroup" aria-label="Graduación del pisco">
@@ -525,8 +543,7 @@
         sizeNormal:   'Normal · 100 ml',
         sizeCatedral: 'Catedral · 250 ml',
         peopleLabel:  'Número de personas',
-        peopleHelp:   'Entre 1 y 20 personas',
-        peopleError:  'Ingresa un número entero entre 1 y 20',
+        peopleSub:    n => n === 1 ? 'persona' : 'personas',
         abvLabel:     'Graduación del pisco',
         ingLimon:     'Jugo de limón',
         ingAzucar:    'Azúcar flor',
@@ -561,8 +578,7 @@
         sizeNormal:   'Standard · 100 ml',
         sizeCatedral: 'Cathedral · 250 ml',
         peopleLabel:  'Number of people',
-        peopleHelp:   'Between 1 and 20 people',
-        peopleError:  'Please enter a whole number between 1 and 20',
+        peopleSub:    n => n === 1 ? 'person' : 'people',
         abvLabel:     'Pisco strength',
         ingLimon:     'Lemon juice',
         ingAzucar:    'Icing sugar',
@@ -599,11 +615,13 @@
     let lang = localStorage.getItem('pisco-lang') || browserLang;
 
     /* ── Referencias DOM ────────────────────────────────────── */
-    const input      = document.getElementById('people');
-    const field      = document.getElementById('field');
-    const help       = document.getElementById('help');
-    const sizeInputs = document.querySelectorAll('input[name="size"]');
-    const abvInputs  = document.querySelectorAll('input[name="abv"]');
+    let people = 1;
+    const peopleCount = document.getElementById('people-count');
+    const peopleSubEl = document.getElementById('people-sub');
+    const minusBtn    = document.getElementById('people-minus');
+    const plusBtn     = document.getElementById('people-plus');
+    const sizeInputs  = document.querySelectorAll('input[name="size"]');
+    const abvInputs   = document.querySelectorAll('input[name="abv"]');
     const out = {
       piscoName:  document.querySelector('[data-out="pisco-name"]'),
       pisco:      document.querySelector('[data-out="pisco"]'),
@@ -644,21 +662,26 @@
       return Number(document.querySelector('input[name="size"]:checked').value) / 100;
     }
 
+    function setPeople(n) {
+      people = n;
+      minusBtn.disabled = n <= 1;
+      plusBtn.disabled  = n >= 20;
+      update();
+    }
+
+    minusBtn.addEventListener('click', () => setPeople(Math.max(1,  people - 1)));
+    plusBtn.addEventListener('click',  () => setPeople(Math.min(20, people + 1)));
+
     function update() {
-      const T   = i18n[lang];
-      const raw = input.value.trim();
-      const n   = Number(raw);
-      const valid = raw !== '' && Number.isInteger(n) && n >= 1 && n <= 20;
+      const T = i18n[lang];
+      const n = people;
+      const s = getScale();
 
-      if (!valid) {
-        field.classList.add('error');
-        help.textContent = T.peopleError;
-        return;
-      }
-      field.classList.remove('error');
-      help.textContent = T.peopleHelp;
+      peopleCount.textContent = String(n);
+      peopleSubEl.textContent = T.peopleSub(n);
+      minusBtn.disabled = n <= 1;
+      plusBtn.disabled  = n >= 20;
 
-      const s           = getScale();
       const abv         = Number(document.querySelector('input[name="abv"]:checked').value);
       const piscoFactor = 35 / abv;
       const azucar      = n * s;
@@ -679,8 +702,6 @@
       sqty[1].textContent = T.step2qty(fmt(50 * n * s * piscoFactor), abv);
       sqty[2].textContent = T.step3qty(String(hielo), hieloUnit);
     }
-
-    input.addEventListener('input', update);
     sizeInputs.forEach(el => el.addEventListener('change', update));
     abvInputs.forEach(el  => el.addEventListener('change', update));
 
