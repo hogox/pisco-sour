@@ -4,22 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pisco Sour — Calculadora de receta</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="description" content="Calculadora de receta de Pisco Sour chileno. Ajusta ingredientes por número de personas, tamaño de vaso y graduación del pisco. Con receta paso a paso para licuadora casera.">
 <meta name="keywords" content="pisco sour, receta pisco sour, cóctel chileno, calculadora pisco sour, pisco sour casero, licuadora">
 <meta name="author" content="hogox">
 <link rel="canonical" href="https://hogox.github.io/pisco-sour/">
-
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hogox.github.io/pisco-sour/">
 <meta property="og:title" content="Pisco Sour — Calculadora de receta">
 <meta property="og:description" content="Calcula los ingredientes exactos para preparar un Pisco Sour casero perfecto. Ajusta por personas, tamaño de vaso y graduación del pisco.">
 <meta property="og:locale" content="es_CL">
-
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pisco Sour — Calculadora de receta">
 <meta name="twitter:description" content="Calcula los ingredientes exactos para preparar un Pisco Sour casero perfecto.">
-
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -30,21 +27,20 @@
     --bg:        #080706;
     --surface:   #100d0a;
     --raised:    #181512;
-    --text:      #ede4d0;   /* 15.3:1 */
-    --muted:     #9a8978;   /*  5.7:1 */
-    --subtle:    #8c7d6d;   /*  4.9:1 */
-    --gold:      #c9a847;   /*  8.5:1 */
+    --text:      #ede4d0;
+    --muted:     #9a8978;
+    --subtle:    #8c7d6d;
+    --gold:      #c9a847;
     --gold-bg:   rgba(201,168,71,.12);
     --gold-hov:  rgba(201,168,71,.06);
     --border:    #222018;
     --border-s:  #2e2820;
     --input-bg:  #181512;
-    --error:     #f08888;   /*  7.9:1 */
+    --error:     #f08888;
     --rule:      linear-gradient(to right, transparent, #4a3e1e, transparent);
   }
 
   /* ── Paleta clara (sistema o toggle) ────────────────────── */
-  @media (prefers-color-scheme: light) { :root { --_light: 1; } }
   @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
     --bg:       #faf4ea;
     --surface:  #f3ece0;
@@ -62,7 +58,6 @@
     --rule:     linear-gradient(to right, transparent, #c8b898, transparent);
   }}
 
-  /* Override manual: forzar claro */
   [data-theme="light"] {
     --bg:       #faf4ea;
     --surface:  #f3ece0;
@@ -80,7 +75,6 @@
     --rule:     linear-gradient(to right, transparent, #c8b898, transparent);
   }
 
-  /* Override manual: forzar oscuro */
   [data-theme="dark"] {
     --bg:        #080706;
     --surface:   #100d0a;
@@ -118,25 +112,6 @@
     background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
-
-  .theme-toggle {
-    position: absolute;
-    top: 16px; right: 16px;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border-s);
-    background: var(--raised);
-    color: var(--subtle);
-    display: grid; place-items: center;
-    cursor: pointer;
-    transition: color .2s, border-color .2s;
-    padding: 0;
-  }
-  .theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
-  .theme-toggle .material-symbols-rounded {
-    font-family: 'Material Symbols Rounded';
-    font-size: 18px;
-  }
   .hero-eyebrow {
     margin: 0 0 14px;
     font-size: 10px;
@@ -155,11 +130,49 @@
     color: var(--gold);
   }
   .hero-rule {
-    width: 40px;
-    height: 1px;
+    width: 40px; height: 1px;
     background: var(--rule);
     margin: 0 auto;
   }
+
+  /* ── Controles del hero (tema + idioma) ─────────────────── */
+  .hero-controls {
+    position: absolute;
+    top: 16px; right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .theme-toggle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-s);
+    background: var(--raised);
+    color: var(--subtle);
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+    padding: 0;
+  }
+  .theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  .theme-toggle .material-symbols-rounded {
+    font-family: 'Material Symbols Rounded';
+    font-size: 18px;
+  }
+  .lang-toggle {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 18px;
+    border: 1px solid var(--border-s);
+    background: var(--raised);
+    color: var(--subtle);
+    font: 500 11px/1 'DM Sans', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+    white-space: nowrap;
+  }
+  .lang-toggle:hover { color: var(--gold); border-color: var(--gold); }
 
   /* ── Layout ──────────────────────────────────────────────── */
   main {
@@ -207,8 +220,7 @@
   /* ── Campo de texto ──────────────────────────────────────── */
   .text-field { position: relative; margin-bottom: 8px; }
   .text-field input {
-    width: 100%;
-    height: 52px;
+    width: 100%; height: 52px;
     padding: 20px 16px 6px;
     background: var(--input-bg);
     border: none;
@@ -278,7 +290,7 @@
     visibility: visible; width: 16px;
   }
 
-  /* ── Lista de ingredientes / pasos ───────────────────────── */
+  /* ── Lista ───────────────────────────────────────────────── */
   .list { margin-top: 4px; list-style: none; padding: 0; }
   .list li {
     display: flex; align-items: center; gap: 16px;
@@ -301,14 +313,8 @@
   }
 
   .text { flex: 1; min-width: 0; }
-  .text .name {
-    font-size: 15px; line-height: 22px;
-    color: var(--text);
-  }
-  .text .qty {
-    font-size: 13px; line-height: 20px;
-    color: var(--subtle);
-  }
+  .text .name { font-size: 15px; line-height: 22px; color: var(--text); }
+  .text .qty  { font-size: 13px; line-height: 20px; color: var(--subtle); }
 
   /* ── Pie de página ───────────────────────────────────────── */
   .footer-note {
@@ -318,7 +324,7 @@
     letter-spacing: .5px;
   }
 
-  /* ── Mobile: fuentes más grandes para leer en la cocina ──── */
+  /* ── Mobile ──────────────────────────────────────────────── */
   @media (max-width: 480px) {
     .hero-title      { font-size: 44px; }
     .headline        { font-size: 22px; }
@@ -339,51 +345,46 @@
 <body>
 
 <header class="hero">
-  <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
-    <span class="material-symbols-rounded">light_mode</span>
-  </button>
-  <p class="hero-eyebrow">Cóctel chileno</p>
+  <div class="hero-controls">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+      <span class="material-symbols-rounded">light_mode</span>
+    </button>
+    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar idioma">EN</button>
+  </div>
+  <p class="hero-eyebrow" data-i18n="eyebrow">Cóctel chileno</p>
   <h1 class="hero-title">Pisco Sour</h1>
   <div class="hero-rule"></div>
 </header>
 
 <main>
   <section class="card" aria-labelledby="t">
-    <h2 id="t" class="headline">Calculadora</h2>
-    <p class="body-medium">Elige el tamaño del vaso y el número de personas.</p>
+    <h2 id="t" class="headline" data-i18n="calcTitle">Calculadora</h2>
+    <p class="body-medium" data-i18n="calcSubtitle">Elige el tamaño del vaso y el número de personas.</p>
 
-    <span class="section-label">Tamaño del vaso</span>
+    <span class="section-label" data-i18n="sizeLabel">Tamaño del vaso</span>
     <div class="segmented" role="radiogroup" aria-label="Tamaño del vaso">
       <input type="radio" name="size" id="size-normal" value="100" checked>
       <label for="size-normal">
-        <span class="material-symbols-rounded">check</span>
-        Normal · 100 ml
+        <span class="material-symbols-rounded">check</span><span data-i18n="sizeNormal">Normal · 100 ml</span>
       </label>
       <input type="radio" name="size" id="size-catedral" value="250">
       <label for="size-catedral">
-        <span class="material-symbols-rounded">check</span>
-        Catedral · 250 ml
+        <span class="material-symbols-rounded">check</span><span data-i18n="sizeCatedral">Catedral · 250 ml</span>
       </label>
     </div>
 
     <div class="text-field" id="field">
       <input type="number" id="people" min="1" max="20" value="1" inputmode="numeric" aria-describedby="help">
-      <label for="people">Número de personas</label>
+      <label for="people" data-i18n="peopleLabel">Número de personas</label>
     </div>
-    <div class="supporting" id="help">Entre 1 y 20 personas</div>
+    <div class="supporting" id="help" data-i18n="peopleHelp">Entre 1 y 20 personas</div>
 
-    <span class="section-label">Graduación del pisco</span>
+    <span class="section-label" data-i18n="abvLabel">Graduación del pisco</span>
     <div class="segmented" role="radiogroup" aria-label="Graduación del pisco">
       <input type="radio" name="abv" id="abv-35" value="35" checked>
-      <label for="abv-35">
-        <span class="material-symbols-rounded">check</span>
-        35°
-      </label>
+      <label for="abv-35"><span class="material-symbols-rounded">check</span>35°</label>
       <input type="radio" name="abv" id="abv-40" value="40">
-      <label for="abv-40">
-        <span class="material-symbols-rounded">check</span>
-        40°
-      </label>
+      <label for="abv-40"><span class="material-symbols-rounded">check</span>40°</label>
     </div>
 
     <ul class="list" aria-live="polite">
@@ -397,21 +398,21 @@
       <li>
         <span class="leading"><span class="material-symbols-rounded">eco</span></span>
         <div class="text">
-          <div class="name">Jugo de limón</div>
+          <div class="name" data-i18n="ingLimon">Jugo de limón</div>
           <div class="qty"><span data-out="limon">20</span> ml</div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">grain</span></span>
         <div class="text">
-          <div class="name">Azúcar flor</div>
+          <div class="name" data-i18n="ingAzucar">Azúcar flor</div>
           <div class="qty"><span data-out="azucar">1</span> <span data-out="azucar-unit">cucharadita</span></div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">ac_unit</span></span>
         <div class="text">
-          <div class="name">Hielo</div>
+          <div class="name" data-i18n="ingHielo">Hielo</div>
           <div class="qty"><span data-out="hielo">1</span> <span data-out="hielo-unit">cubo</span></div>
         </div>
       </li>
@@ -419,72 +420,73 @@
   </section>
 
   <section class="card" aria-labelledby="t2">
-    <h2 id="t2" class="headline">Preparación</h2>
-    <p class="body-medium">Receta para licuadora casera.</p>
+    <h2 id="t2" class="headline" data-i18n="prepTitle">Preparación</h2>
+    <p class="body-medium" data-i18n="prepSubtitle">Receta para licuadora casera.</p>
     <ul class="list" aria-live="polite">
       <li>
         <span class="leading"><span class="material-symbols-rounded">eco</span></span>
         <div class="text">
-          <div class="name">Mezcla el limón con el azúcar</div>
-          <div class="qty">Licúa <span data-out="step-limon">20</span> ml de jugo de limón con <span data-out="step-azucar">1</span> <span data-out="step-azucar-unit">cucharadita</span> de azúcar por 2 minutos, hasta que se disuelva.</div>
+          <div class="name" data-i18n="step1name">Mezcla el limón con el azúcar</div>
+          <div class="qty" id="sqty1"></div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">local_bar</span></span>
         <div class="text">
-          <div class="name">Agrega el pisco</div>
-          <div class="qty">Incorpora <span data-out="step-pisco">50</span> ml de pisco (<span data-out="step-pisco-abv">35°</span>) y mezcla 2 minutos más.</div>
+          <div class="name" data-i18n="step2name">Agrega el pisco</div>
+          <div class="qty" id="sqty2"></div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">ac_unit</span></span>
         <div class="text">
-          <div class="name">Agrega el hielo</div>
-          <div class="qty">Añade <span data-out="step-hielo">1</span> <span data-out="step-hielo-unit">cubo</span> de hielo y licúa hasta lograr consistencia frapé.</div>
+          <div class="name" data-i18n="step3name">Agrega el hielo</div>
+          <div class="qty" id="sqty3"></div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">egg</span></span>
         <div class="text">
-          <div class="name">Agrega la clara de huevo</div>
-          <div class="qty">Añade la clara y licúa exactamente 4 segundos en velocidad baja.</div>
+          <div class="name" data-i18n="step4name">Agrega la clara de huevo</div>
+          <div class="qty" data-i18n="step4qty">Añade la clara y licúa exactamente 4 segundos en velocidad baja.</div>
         </div>
       </li>
     </ul>
   </section>
 
   <section class="card" aria-labelledby="t3">
-    <h2 id="t3" class="headline">Servir y disfrutar</h2>
-    <p class="body-medium">Los últimos detalles hacen la diferencia.</p>
+    <h2 id="t3" class="headline" data-i18n="serveTitle">Servir y disfrutar</h2>
+    <p class="body-medium" data-i18n="serveSubtitle">Los últimos detalles hacen la diferencia.</p>
     <ul class="list">
       <li>
         <span class="leading"><span class="material-symbols-rounded">wine_bar</span></span>
         <div class="text">
-          <div class="name">Sirve de inmediato</div>
-          <div class="qty">Vierte en copas de sour o vasos bajos. Si quedó muy espeso, puedes colar con un colador fino para separar los trozos de hielo más grandes.</div>
+          <div class="name" data-i18n="serve1name">Sirve de inmediato</div>
+          <div class="qty"  data-i18n="serve1qty">Vierte en copas de sour o vasos bajos. Si quedó muy espeso, puedes colar con un colador fino para separar los trozos de hielo más grandes.</div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">water_drop</span></span>
         <div class="text">
-          <div class="name">Decora con Angostura</div>
-          <div class="qty">Deja caer 2–3 gotas de amargo de Angostura sobre la espuma. No mezcles — el patrón es parte de la presentación.</div>
+          <div class="name" data-i18n="serve2name">Decora con Angostura</div>
+          <div class="qty"  data-i18n="serve2qty">Deja caer 2–3 gotas de amargo de Angostura sobre la espuma. No mezcles — el patrón es parte de la presentación.</div>
         </div>
       </li>
       <li>
         <span class="leading"><span class="material-symbols-rounded">favorite</span></span>
         <div class="text">
-          <div class="name">¡Disfruta pronto!</div>
-          <div class="qty">La espuma se asienta en minutos. Sirve y brinda de inmediato. Sorbe suave para que el amargo se integre con cada trago.</div>
+          <div class="name" data-i18n="serve3name">¡Disfruta pronto!</div>
+          <div class="qty"  data-i18n="serve3qty">La espuma se asienta en minutos. Sirve y brinda de inmediato. Sorbe suave para que el amargo se integre con cada trago.</div>
         </div>
       </li>
     </ul>
   </section>
 
-  <p class="footer-note">Receta base · vaso de 100 ml · pisco 35°</p>
+  <p class="footer-note" data-i18n="footer">Receta base · vaso de 100 ml · pisco 35°</p>
 </main>
 
 <script>
+  /* ── Tema ─────────────────────────────────────────────────── */
   (function () {
     const btn  = document.getElementById('theme-toggle');
     const icon = btn.querySelector('.material-symbols-rounded');
@@ -498,10 +500,7 @@
       const t = html.getAttribute('data-theme');
       return t === 'dark' || (!t && mql.matches);
     }
-
-    function syncIcon() {
-      icon.textContent = isDark() ? 'light_mode' : 'dark_mode';
-    }
+    function syncIcon() { icon.textContent = isDark() ? 'light_mode' : 'dark_mode'; }
 
     btn.addEventListener('click', () => {
       const next = isDark() ? 'light' : 'dark';
@@ -516,51 +515,155 @@
 </script>
 
 <script>
+  /* ── Idioma + Calculadora ─────────────────────────────────── */
   (function () {
-    const input = document.getElementById('people');
-    const field = document.getElementById('field');
-    const help  = document.getElementById('help');
+
+    /* ── Traducciones ───────────────────────────────────────── */
+    const i18n = {
+      es: {
+        eyebrow:      'Cóctel chileno',
+        calcTitle:    'Calculadora',
+        calcSubtitle: 'Elige el tamaño del vaso y el número de personas.',
+        sizeLabel:    'Tamaño del vaso',
+        sizeNormal:   'Normal · 100 ml',
+        sizeCatedral: 'Catedral · 250 ml',
+        peopleLabel:  'Número de personas',
+        peopleHelp:   'Entre 1 y 20 personas',
+        peopleError:  'Ingresa un número entero entre 1 y 20',
+        abvLabel:     'Graduación del pisco',
+        ingLimon:     'Jugo de limón',
+        ingAzucar:    'Azúcar flor',
+        ingHielo:     'Hielo',
+        tsp:          n => n === 1 ? 'cucharadita'  : 'cucharaditas',
+        cube:         n => n === 1 ? 'cubo'         : 'cubos',
+        prepTitle:    'Preparación',
+        prepSubtitle: 'Receta para licuadora casera.',
+        step1name:    'Mezcla el limón con el azúcar',
+        step1qty:     (l, a, u) => `Licúa ${l} ml de jugo de limón con ${a} ${u} de azúcar por 2 minutos, hasta que se disuelva.`,
+        step2name:    'Agrega el pisco',
+        step2qty:     (p, abv) => `Incorpora ${p} ml de pisco (${abv}°) y mezcla 2 minutos más.`,
+        step3name:    'Agrega el hielo',
+        step3qty:     (h, u) => `Añade ${h} ${u} de hielo y licúa hasta lograr consistencia frapé.`,
+        step4name:    'Agrega la clara de huevo',
+        step4qty:     'Añade la clara y licúa exactamente 4 segundos en velocidad baja.',
+        serveTitle:   'Servir y disfrutar',
+        serveSubtitle:'Los últimos detalles hacen la diferencia.',
+        serve1name:   'Sirve de inmediato',
+        serve1qty:    'Vierte en copas de sour o vasos bajos. Si quedó muy espeso, puedes colar con un colador fino para separar los trozos de hielo más grandes.',
+        serve2name:   'Decora con Angostura',
+        serve2qty:    'Deja caer 2–3 gotas de amargo de Angostura sobre la espuma. No mezcles — el patrón es parte de la presentación.',
+        serve3name:   '¡Disfruta pronto!',
+        serve3qty:    'La espuma se asienta en minutos. Sirve y brinda de inmediato. Sorbe suave para que el amargo se integre con cada trago.',
+        footer:       'Receta base · vaso de 100 ml · pisco 35°',
+        ariaTheme:    'Cambiar tema',
+        ariaLang:     'Cambiar idioma',
+        langBtn:      'EN',
+      },
+      en: {
+        eyebrow:      'Chilean Cocktail',
+        calcTitle:    'Calculator',
+        calcSubtitle: 'Choose your glass size and number of people.',
+        sizeLabel:    'Glass size',
+        sizeNormal:   'Standard · 100 ml',
+        sizeCatedral: 'Cathedral · 250 ml',
+        peopleLabel:  'Number of people',
+        peopleHelp:   'Between 1 and 20 people',
+        peopleError:  'Please enter a whole number between 1 and 20',
+        abvLabel:     'Pisco strength',
+        ingLimon:     'Lemon juice',
+        ingAzucar:    'Icing sugar',
+        ingHielo:     'Ice',
+        tsp:          n => n === 1 ? 'teaspoon'  : 'teaspoons',
+        cube:         n => n === 1 ? 'cube'       : 'cubes',
+        prepTitle:    'Preparation',
+        prepSubtitle: 'Home blender recipe.',
+        step1name:    'Mix the lemon and sugar',
+        step1qty:     (l, a, u) => `Blend ${l} ml of lemon juice with ${a} ${u} of icing sugar for 2 minutes until dissolved.`,
+        step2name:    'Add the pisco',
+        step2qty:     (p, abv) => `Add ${p} ml of pisco (${abv}°) and blend for a further 2 minutes.`,
+        step3name:    'Add the ice',
+        step3qty:     (h, u) => `Add ${h} ${u} of ice and blend until you reach a frappé consistency.`,
+        step4name:    'Add the egg white',
+        step4qty:     'Add the egg white and blend for exactly 4 seconds on the lowest speed.',
+        serveTitle:   'Serving & Enjoyment',
+        serveSubtitle:'The final touches make all the difference.',
+        serve1name:   'Serve immediately',
+        serve1qty:    'Pour into sour glasses or tumblers. If the mixture is too thick, pass it through a fine sieve to remove any larger pieces of ice.',
+        serve2name:   'Garnish with Angostura',
+        serve2qty:    'Drop 2–3 dashes of Angostura bitters onto the foam. Do not stir — the pattern is part of the presentation.',
+        serve3name:   'Enjoy promptly!',
+        serve3qty:    'The foam settles quickly. Serve and raise a glass straight away. Sip gently so the bitters mingle with each mouthful.',
+        footer:       'Base recipe · 100 ml glass · 35° pisco',
+        ariaTheme:    'Toggle theme',
+        ariaLang:     'Change language',
+        langBtn:      'ES',
+      },
+    };
+
+    /* ── Estado ─────────────────────────────────────────────── */
+    const browserLang = navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en';
+    let lang = localStorage.getItem('pisco-lang') || browserLang;
+
+    /* ── Referencias DOM ────────────────────────────────────── */
+    const input      = document.getElementById('people');
+    const field      = document.getElementById('field');
+    const help       = document.getElementById('help');
+    const langBtn    = document.getElementById('lang-toggle');
     const sizeInputs = document.querySelectorAll('input[name="size"]');
     const abvInputs  = document.querySelectorAll('input[name="abv"]');
     const out = {
-      piscoName: document.querySelector('[data-out="pisco-name"]'),
-      pisco:     document.querySelector('[data-out="pisco"]'),
-      limon:     document.querySelector('[data-out="limon"]'),
-      azucar:    document.querySelector('[data-out="azucar"]'),
-      azucarUnit:document.querySelector('[data-out="azucar-unit"]'),
-      hielo:     document.querySelector('[data-out="hielo"]'),
-      hieloUnit: document.querySelector('[data-out="hielo-unit"]'),
+      piscoName:  document.querySelector('[data-out="pisco-name"]'),
+      pisco:      document.querySelector('[data-out="pisco"]'),
+      limon:      document.querySelector('[data-out="limon"]'),
+      azucar:     document.querySelector('[data-out="azucar"]'),
+      azucarUnit: document.querySelector('[data-out="azucar-unit"]'),
+      hielo:      document.querySelector('[data-out="hielo"]'),
+      hieloUnit:  document.querySelector('[data-out="hielo-unit"]'),
     };
-    const stepOut = {
-      limon:      document.querySelector('[data-out="step-limon"]'),
-      azucar:     document.querySelector('[data-out="step-azucar"]'),
-      azucarUnit: document.querySelector('[data-out="step-azucar-unit"]'),
-      pisco:      document.querySelector('[data-out="step-pisco"]'),
-      piscoAbv:   document.querySelector('[data-out="step-pisco-abv"]'),
-      hielo:      document.querySelector('[data-out="step-hielo"]'),
-      hieloUnit:  document.querySelector('[data-out="step-hielo-unit"]'),
-    };
+    const sqty = [1,2,3].map(n => document.getElementById('sqty' + n));
 
     const fmt = v => Number.isInteger(v)
       ? String(v)
       : v.toFixed(2).replace(/\.?0+$/, '').replace('.', ',');
 
+    /* ── Idioma ─────────────────────────────────────────────── */
+    function setLang(l) {
+      lang = l;
+      localStorage.setItem('pisco-lang', l);
+      document.documentElement.lang = l === 'es' ? 'es' : 'en-GB';
+
+      const T = i18n[l];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = T[el.dataset.i18n];
+        if (typeof v === 'string') el.textContent = v;
+      });
+      langBtn.textContent = T.langBtn;
+      langBtn.setAttribute('aria-label', T.ariaLang);
+      document.getElementById('theme-toggle').setAttribute('aria-label', T.ariaTheme);
+
+      update();
+    }
+
+    langBtn.addEventListener('click', () => setLang(lang === 'es' ? 'en' : 'es'));
+
+    /* ── Calculadora ────────────────────────────────────────── */
     function getScale() {
       return Number(document.querySelector('input[name="size"]:checked').value) / 100;
     }
 
     function update() {
+      const T   = i18n[lang];
       const raw = input.value.trim();
       const n   = Number(raw);
       const valid = raw !== '' && Number.isInteger(n) && n >= 1 && n <= 20;
 
       if (!valid) {
         field.classList.add('error');
-        help.textContent = 'Ingresa un número entero entre 1 y 20';
+        help.textContent = T.peopleError;
         return;
       }
       field.classList.remove('error');
-      help.textContent = 'Entre 1 y 20 personas';
+      help.textContent = T.peopleHelp;
 
       const s           = getScale();
       const abv         = Number(document.querySelector('input[name="abv"]:checked').value);
@@ -568,28 +671,28 @@
       const azucar      = n * s;
       const iceVol      = n * s * (100 - 50 * piscoFactor - 20);
       const hielo       = Math.ceil(iceVol / 30);
+      const azucarUnit  = T.tsp(azucar);
+      const hieloUnit   = T.cube(hielo);
 
       out.piscoName.textContent  = `Pisco (${abv}°)`;
       out.pisco.textContent      = fmt(50 * n * s * piscoFactor);
       out.limon.textContent      = fmt(20 * n * s);
       out.azucar.textContent     = fmt(azucar);
-      out.azucarUnit.textContent = azucar === 1 ? 'cucharadita' : 'cucharaditas';
+      out.azucarUnit.textContent = azucarUnit;
       out.hielo.textContent      = String(hielo);
-      out.hieloUnit.textContent  = hielo === 1 ? 'cubo' : 'cubos';
+      out.hieloUnit.textContent  = hieloUnit;
 
-      stepOut.limon.textContent      = fmt(20 * n * s);
-      stepOut.azucar.textContent     = fmt(azucar);
-      stepOut.azucarUnit.textContent = azucar === 1 ? 'cucharadita' : 'cucharaditas';
-      stepOut.pisco.textContent      = fmt(50 * n * s * piscoFactor);
-      stepOut.piscoAbv.textContent   = `${abv}°`;
-      stepOut.hielo.textContent      = String(hielo);
-      stepOut.hieloUnit.textContent  = hielo === 1 ? 'cubo' : 'cubos';
+      sqty[0].textContent = T.step1qty(fmt(20 * n * s), fmt(azucar), azucarUnit);
+      sqty[1].textContent = T.step2qty(fmt(50 * n * s * piscoFactor), abv);
+      sqty[2].textContent = T.step3qty(String(hielo), hieloUnit);
     }
 
     input.addEventListener('input', update);
     sizeInputs.forEach(el => el.addEventListener('change', update));
     abvInputs.forEach(el  => el.addEventListener('change', update));
-    update();
+
+    /* ── Inicializar ────────────────────────────────────────── */
+    setLang(lang);
   })();
 </script>
 
