@@ -660,9 +660,13 @@
     };
     const sqty = [1,2,3].map(n => document.getElementById('sqty' + n));
 
-    const fmt = v => Number.isInteger(v)
-      ? String(v)
-      : v.toFixed(2).replace(/\.?0+$/, '').replace('.', ',');
+    const r5    = v => Math.round(v / 5) * 5;
+    const rHalf = v => Math.round(v * 2) / 2;
+    const fmt   = v => {
+      if (Number.isInteger(v)) return String(v);
+      const s = v.toFixed(2).replace(/\.?0+$/, '');
+      return lang === 'es' ? s.replace('.', ',') : s;
+    };
 
     /* ── Idioma ─────────────────────────────────────────────── */
     function setLang(l) {
@@ -711,22 +715,24 @@
 
       const abv         = Number(document.querySelector('input[name="abv"]:checked').value);
       const piscoFactor = 35 / abv;
-      const azucar      = n * s;
+      const piscoML     = r5(50 * n * s * piscoFactor);
+      const limonML     = 20 * n * s;
+      const azucar      = rHalf(n * s);
       const iceVol      = n * s * (100 - 50 * piscoFactor - 20);
       const hielo       = Math.ceil(iceVol / 30);
       const azucarUnit  = T.tsp(azucar);
       const hieloUnit   = T.cube(hielo);
 
       out.piscoName.textContent  = `Pisco (${abv}°)`;
-      out.pisco.textContent      = fmt(50 * n * s * piscoFactor);
-      out.limon.textContent      = fmt(20 * n * s);
+      out.pisco.textContent      = fmt(piscoML);
+      out.limon.textContent      = fmt(limonML);
       out.azucar.textContent     = fmt(azucar);
       out.azucarUnit.textContent = azucarUnit;
       out.hielo.textContent      = String(hielo);
       out.hieloUnit.textContent  = hieloUnit;
 
-      sqty[0].textContent = T.step1qty(fmt(20 * n * s), fmt(azucar), azucarUnit);
-      sqty[1].textContent = T.step2qty(fmt(50 * n * s * piscoFactor), abv);
+      sqty[0].textContent = T.step1qty(fmt(limonML), fmt(azucar), azucarUnit);
+      sqty[1].textContent = T.step2qty(fmt(piscoML), abv);
       sqty[2].textContent = T.step3qty(String(hielo), hieloUnit);
     }
     sizeInputs.forEach(el => el.addEventListener('change', update));
