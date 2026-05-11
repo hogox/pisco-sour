@@ -166,11 +166,14 @@
     border: 1px solid var(--border-s);
     background: var(--raised);
     color: var(--subtle);
-    font: 500 11px/1 'DM Sans', sans-serif;
-    letter-spacing: 1px;
+    font: 500 13px/1 'DM Sans', sans-serif;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: color .2s, border-color .2s;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .lang-toggle:hover { color: var(--gold); border-color: var(--gold); }
 
@@ -349,7 +352,7 @@
     <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
       <span class="material-symbols-rounded">light_mode</span>
     </button>
-    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar idioma">EN</button>
+    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar a inglés">🇬🇧 EN</button>
   </div>
   <p class="hero-eyebrow" data-i18n="eyebrow">Cóctel chileno</p>
   <h1 class="hero-title">Pisco Sour</h1>
@@ -556,8 +559,8 @@
         serve3qty:    'La espuma se asienta en minutos. Sirve y brinda de inmediato. Sorbe suave para que el amargo se integre con cada trago.',
         footer:       'Receta base · vaso de 100 ml · pisco 35°',
         ariaTheme:    'Cambiar tema',
-        ariaLang:     'Cambiar idioma',
-        langBtn:      'EN',
+        ariaLang:     'Cambiar a inglés',
+        langBtn:      '🇬🇧 EN',
       },
       en: {
         eyebrow:      'Chilean Cocktail',
@@ -595,8 +598,8 @@
         serve3qty:    'The foam settles quickly. Serve and raise a glass straight away. Sip gently so the bitters mingle with each mouthful.',
         footer:       'Base recipe · 100 ml glass · 35° pisco',
         ariaTheme:    'Toggle theme',
-        ariaLang:     'Change language',
-        langBtn:      'ES',
+        ariaLang:     'Cambiar a español',
+        langBtn:      '🇨🇱 ES',
       },
     };
 
