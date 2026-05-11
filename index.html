@@ -143,39 +143,27 @@
     align-items: center;
     gap: 8px;
   }
-  .theme-toggle {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border-s);
-    background: var(--raised);
-    color: var(--subtle);
-    display: grid; place-items: center;
-    cursor: pointer;
-    transition: color .2s, border-color .2s;
-    padding: 0;
-  }
-  .theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
-  .theme-toggle .material-symbols-rounded {
-    font-family: 'Material Symbols Rounded';
-    font-size: 18px;
-  }
-  .lang-toggle {
-    height: 36px;
-    padding: 0 12px;
-    border-radius: 18px;
-    border: 1px solid var(--border-s);
-    background: var(--raised);
-    color: var(--subtle);
-    font: 500 13px/1 'DM Sans', sans-serif;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: color .2s, border-color .2s;
-    white-space: nowrap;
+  .seg-mini {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border-s);
+    overflow: hidden;
+    background: var(--raised);
   }
-  .lang-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  .seg-mini input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg-mini label {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 32px; padding: 0 10px;
+    font: 500 12px/1 'DM Sans', sans-serif;
+    color: var(--subtle);
+    cursor: pointer; user-select: none;
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  .seg-mini label + label { border-left: 1px solid var(--border-s); }
+  .seg-mini label:hover { background: var(--gold-hov); color: var(--gold); }
+  .seg-mini input:checked + label { background: var(--gold-bg); color: var(--gold); }
+  .seg-mini .material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-size: 16px; }
 
   /* ── Layout ──────────────────────────────────────────────── */
   main {
@@ -349,10 +337,18 @@
 
 <header class="hero">
   <div class="hero-controls">
-    <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
-      <span class="material-symbols-rounded">light_mode</span>
-    </button>
-    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar a inglés">🇬🇧 EN</button>
+    <div class="seg-mini" role="radiogroup" aria-label="Tema">
+      <input type="radio" name="theme" id="theme-light" value="light">
+      <label for="theme-light"><span class="material-symbols-rounded">light_mode</span></label>
+      <input type="radio" name="theme" id="theme-dark" value="dark">
+      <label for="theme-dark"><span class="material-symbols-rounded">dark_mode</span></label>
+    </div>
+    <div class="seg-mini" role="radiogroup" aria-label="Idioma">
+      <input type="radio" name="lang" id="lang-es" value="es">
+      <label for="lang-es">🇨🇱 ES</label>
+      <input type="radio" name="lang" id="lang-en" value="en">
+      <label for="lang-en">🇬🇧 EN</label>
+    </div>
   </div>
   <p class="hero-eyebrow" data-i18n="eyebrow">Cóctel chileno</p>
   <h1 class="hero-title">Pisco Sour</h1>
@@ -491,29 +487,27 @@
 <script>
   /* ── Tema ─────────────────────────────────────────────────── */
   (function () {
-    const btn  = document.getElementById('theme-toggle');
-    const icon = btn.querySelector('.material-symbols-rounded');
     const html = document.documentElement;
     const mql  = window.matchMedia('(prefers-color-scheme: dark)');
-
     const saved = localStorage.getItem('pisco-theme');
+    const initTheme = saved || (mql.matches ? 'dark' : 'light');
     if (saved) html.setAttribute('data-theme', saved);
 
-    function isDark() {
-      const t = html.getAttribute('data-theme');
-      return t === 'dark' || (!t && mql.matches);
+    function setTheme(t) {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem('pisco-theme', t);
+      document.getElementById('theme-' + t).checked = true;
     }
-    function syncIcon() { icon.textContent = isDark() ? 'light_mode' : 'dark_mode'; }
 
-    btn.addEventListener('click', () => {
-      const next = isDark() ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('pisco-theme', next);
-      syncIcon();
+    document.querySelectorAll('input[name="theme"]').forEach(input => {
+      input.addEventListener('change', () => setTheme(input.value));
     });
 
-    mql.addEventListener('change', syncIcon);
-    syncIcon();
+    mql.addEventListener('change', () => {
+      if (!localStorage.getItem('pisco-theme')) setTheme(mql.matches ? 'dark' : 'light');
+    });
+
+    document.getElementById('theme-' + initTheme).checked = true;
   })();
 </script>
 
@@ -558,9 +552,6 @@
         serve3name:   '¡Disfruta pronto!',
         serve3qty:    'La espuma se asienta en minutos. Sirve y brinda de inmediato. Sorbe suave para que el amargo se integre con cada trago.',
         footer:       'Receta base · vaso de 100 ml · pisco 35°',
-        ariaTheme:    'Cambiar tema',
-        ariaLang:     'Cambiar a inglés',
-        langBtn:      '🇬🇧 EN',
       },
       en: {
         eyebrow:      'Chilean Cocktail',
@@ -597,9 +588,6 @@
         serve3name:   'Enjoy promptly!',
         serve3qty:    'The foam settles quickly. Serve and raise a glass straight away. Sip gently so the bitters mingle with each mouthful.',
         footer:       'Base recipe · 100 ml glass · 35° pisco',
-        ariaTheme:    'Toggle theme',
-        ariaLang:     'Cambiar a español',
-        langBtn:      '🇨🇱 ES',
       },
     };
 
@@ -614,7 +602,6 @@
     const input      = document.getElementById('people');
     const field      = document.getElementById('field');
     const help       = document.getElementById('help');
-    const langBtn    = document.getElementById('lang-toggle');
     const sizeInputs = document.querySelectorAll('input[name="size"]');
     const abvInputs  = document.querySelectorAll('input[name="abv"]');
     const out = {
@@ -643,14 +630,14 @@
         const v = T[el.dataset.i18n];
         if (typeof v === 'string') el.textContent = v;
       });
-      langBtn.textContent = T.langBtn;
-      langBtn.setAttribute('aria-label', T.ariaLang);
-      document.getElementById('theme-toggle').setAttribute('aria-label', T.ariaTheme);
+      document.getElementById('lang-' + l).checked = true;
 
       update();
     }
 
-    langBtn.addEventListener('click', () => setLang(lang === 'es' ? 'en' : 'es'));
+    document.querySelectorAll('input[name="lang"]').forEach(input => {
+      input.addEventListener('change', () => setLang(input.value));
+    });
 
     /* ── Calculadora ────────────────────────────────────────── */
     function getScale() {
