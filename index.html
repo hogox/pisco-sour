@@ -266,12 +266,30 @@
   .segmented label {
     flex: 1;
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    height: 40px; padding: 0 12px;
+    min-height: 48px; padding: 10px 12px;
     font-size: 13px; font-weight: 400;
     color: var(--subtle);
     cursor: pointer; user-select: none;
     transition: background .15s, color .15s;
   }
+  .seg-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .seg-name {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .seg-ml {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1;
+    font-weight: 400;
+  }
+  .segmented input:checked + label .seg-ml { color: var(--gold); opacity: 0.7; }
   .segmented label + label { border-left: 1px solid var(--border-s); }
   .segmented label:hover   { background: var(--gold-hov); color: var(--gold); }
   .segmented input:checked + label {
@@ -324,6 +342,7 @@
 
   /* ── Mobile ──────────────────────────────────────────────── */
   @media (max-width: 480px) {
+    .hero-controls   { position: static; justify-content: center; margin-bottom: 20px; }
     .hero-title      { font-size: 52px; }
     .headline        { font-size: 24px; }
     .body-medium     { font-size: 16px; line-height: 26px; }
@@ -374,11 +393,19 @@
     <div class="segmented" role="radiogroup" aria-label="Tamaño del vaso">
       <input type="radio" name="size" id="size-normal" value="100" checked>
       <label for="size-normal">
-        <span class="material-symbols-rounded">check</span><span data-i18n="sizeNormal">Normal · 100 ml</span>
+        <span class="material-symbols-rounded">check</span>
+        <span class="seg-label">
+          <span class="seg-name" data-i18n="sizeNormal">Normal</span>
+          <span class="seg-ml">100 ml</span>
+        </span>
       </label>
       <input type="radio" name="size" id="size-catedral" value="250">
       <label for="size-catedral">
-        <span class="material-symbols-rounded">check</span><span data-i18n="sizeCatedral">Catedral · 250 ml</span>
+        <span class="material-symbols-rounded">check</span>
+        <span class="seg-label">
+          <span class="seg-name" data-i18n="sizeCatedral">Catedral</span>
+          <span class="seg-ml">250 ml</span>
+        </span>
       </label>
     </div>
 
@@ -540,8 +567,8 @@
         calcTitle:    'Calculadora',
         calcSubtitle: 'Elige el tamaño del vaso y el número de personas.',
         sizeLabel:    'Tamaño del vaso',
-        sizeNormal:   'Normal · 100 ml',
-        sizeCatedral: 'Catedral · 250 ml',
+        sizeNormal:   'Normal',
+        sizeCatedral: 'Catedral',
         peopleLabel:  'Número de personas',
         peopleSub:    n => n === 1 ? 'persona' : 'personas',
         abvLabel:     'Graduación del pisco',
@@ -575,8 +602,8 @@
         calcTitle:    'Calculator',
         calcSubtitle: 'Choose your glass size and number of people.',
         sizeLabel:    'Glass size',
-        sizeNormal:   'Standard · 100 ml',
-        sizeCatedral: 'Cathedral · 250 ml',
+        sizeNormal:   'Standard',
+        sizeCatedral: 'Cathedral',
         peopleLabel:  'Number of people',
         peopleSub:    n => n === 1 ? 'person' : 'people',
         abvLabel:     'Pisco strength',
